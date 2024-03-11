@@ -11,9 +11,9 @@ public interface UserRepository {
 
     Optional<User> findUserById(Long id);
 
-    User saveUser();
+    User saveUser(User user);
 
-    User updateUser();
+    User updateUser(User user);
 
-    void deleteUser();
+    void deleteUser(Long id);
 }
