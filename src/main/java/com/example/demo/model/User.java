@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.model;
 
 import lombok.Data;
 import lombok.experimental.FieldNameConstants;
@@ -6,8 +6,8 @@ import lombok.experimental.FieldNameConstants;
 @Data
 @FieldNameConstants
 public class User {
+    private Long id;
     private String name;
     private String surname;
     private Integer age;
-    private Long id;
 }

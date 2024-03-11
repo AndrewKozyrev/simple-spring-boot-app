@@ -1,11 +1,9 @@
 package com.example.demo.repository;
 
-import com.example.demo.User;
+import com.example.demo.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,39 +27,36 @@ public class DatabaseUserRepository implements UserRepository {
 
     @Override
     public List<User> findAll() {
-        String sql = "SELECT * FROM user";
+        String sql = "SELECT * FROM person";
 
         return jdbcTemplate.query(sql, userRowMapper);
     }
 
     @Override
     public Optional<User> findUserById(Long id) {
-        String sql = "SELECT * FROM user WHERE id = ?";
+        String sql = "SELECT * FROM person WHERE id = ?";
 
         return Optional.ofNullable(jdbcTemplate.queryForObject(sql, userRowMapper, id));
     }
 
     @Override
     public User saveUser(User user) {
-        String sql = "INSERT INTO user (name, surname, age) VALUES (?, ?, ?)";
-
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(sql);
-
-        user.setId(keyHolder.getKey().longValue());
+        String sql = "INSERT INTO person (id, name, surname, age) VALUES (?, ?, ?, ?)";
+        user.setId(System.currentTimeMillis());
+        jdbcTemplate.update(sql, user.getId(), user.getName(), user.getSurname(), user.getAge());
         return user;
     }
 
     @Override
     public User updateUser(User user) {
-        String sql = "UPDATE user SET name = ?, surname = ?, age = ? WHERE id = ?";
+        String sql = "UPDATE person SET name = ?, surname = ?, age = ? WHERE id = ?";
         jdbcTemplate.update(sql, user.getName(), user.getSurname(), user.getAge(), user.getId());
         return user;
     }
 
     @Override
     public void deleteUser(Long id) {
-        String sql = "DELETE FROM user WHERE id = ?";
+        String sql = "DELETE FROM person WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
 }
