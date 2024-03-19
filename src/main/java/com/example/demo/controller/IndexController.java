@@ -4,10 +4,10 @@ import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 
@@ -29,6 +29,13 @@ public class IndexController {
 
         userService.save(user);
 
-        return "redirect:/index1";
+        return "redirect:/index";
     }
+
+    /*@DeleteMapping("/delete/{id}")
+    public String deleteUser()*/
+    //TODO http://localhost:8080/delete/1         ---        должен удалять пользователя с индексом 1
+    // контроллер должен принимать переменную пути @PathVariable id
+    // контроллер должен вызывать сервис userService.delete([идентификатор])
+    // контроллер должен направлять на путь /index
 }
