@@ -1,7 +1,7 @@
 CREATE SCHEMA IF NOT EXISTS person_schema;
 
 CREATE TABLE IF NOT EXISTS person_schema.person (
-  id BIGINT PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   surname VARCHAR(255) NOT NULL,
   age INTEGER

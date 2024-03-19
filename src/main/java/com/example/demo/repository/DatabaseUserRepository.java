@@ -2,6 +2,7 @@ package com.example.demo.repository;
 
 import com.example.demo.model.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -12,6 +13,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class DatabaseUserRepository implements UserRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -41,9 +43,9 @@ public class DatabaseUserRepository implements UserRepository {
 
     @Override
     public User saveUser(User user) {
-        String sql = "INSERT INTO person (id, name, surname, age) VALUES (?, ?, ?, ?)";
-        user.setId(System.currentTimeMillis());
-        jdbcTemplate.update(sql, user.getId(), user.getName(), user.getSurname(), user.getAge());
+        log.info("calling DatabaseUserRepository->saveUser with user={}", user);
+        String sql = "INSERT INTO person (name, surname, age) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, user.getName(), user.getSurname(), user.getAge());
         return user;
     }
 

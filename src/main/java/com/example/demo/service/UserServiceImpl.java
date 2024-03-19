@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    @EventListener(ApplicationStartedEvent.class)
+//    @EventListener(ApplicationStartedEvent.class)
     public void loadUsers() {
         log.info("START loadUsers");
 
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-        return null;
+        return userRepository.saveUser(user);
     }
 
     @Override
