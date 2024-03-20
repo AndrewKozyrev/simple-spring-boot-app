@@ -43,7 +43,7 @@ public class DatabaseUserRepository implements UserRepository {
 
     @Override
     public User saveUser(User user) {
-        log.info("calling DatabaseUserRepository->saveUser with user={}", user);
+        log.info("calling DatabaseUserRepository -> saveUser with user={}", user);
         String sql = "INSERT INTO person (name, surname, age) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, user.getName(), user.getSurname(), user.getAge());
         return user;
@@ -58,6 +58,7 @@ public class DatabaseUserRepository implements UserRepository {
 
     @Override
     public void deleteUser(Long id) {
+        //TODO: логировать
         String sql = "DELETE FROM person WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }

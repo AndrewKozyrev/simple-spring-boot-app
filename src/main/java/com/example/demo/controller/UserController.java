@@ -17,7 +17,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Controller
 @RequiredArgsConstructor
-public class IndexController {
+public class UserController {
 
     private final UserService userService;
 
@@ -28,7 +28,6 @@ public class IndexController {
 
     @PostMapping(value = "/save", consumes = APPLICATION_JSON_VALUE)
     public String saveUser(@Valid @RequestBody User user) {
-
         userService.save(user);
 
         return "redirect:/index";
@@ -39,5 +38,4 @@ public class IndexController {
         userService.delete(id);
         return "redirect:/index";
     }
-
 }

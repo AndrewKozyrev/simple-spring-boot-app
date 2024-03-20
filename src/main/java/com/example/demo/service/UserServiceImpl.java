@@ -52,6 +52,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean delete(Long id) {
+        //TODO: дописать
         return false;
     }
 }
