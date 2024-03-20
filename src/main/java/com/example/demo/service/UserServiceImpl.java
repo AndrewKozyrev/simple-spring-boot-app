@@ -11,12 +11,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
 
     //   @EventListener(ApplicationStartedEvent.class)
     public void loadUsers() {
@@ -52,7 +57,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean delete(Long id) {
-        //TODO: дописать
-        return false;
+        logger.info("Удаление пользователя с ID: {}", id);
+        try {
+            if (userRepository.findUserById(id).isPresent()) {
+                userRepository.deleteUser(id);
+                logger.info("Пользователь с ID {} успешно удален", id);
+                return true;
+            } else {
+                logger.warn("Пользователь с ID {} не найден", id);
+                return false;
+            }
+        } catch (Exception e) {
+            logger.error("Ошибка при удалении пользователя с ID {}", id, e);
+            return false;
+        }
     }
 }

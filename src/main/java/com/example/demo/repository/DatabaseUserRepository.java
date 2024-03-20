@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Repository
 @RequiredArgsConstructor
@@ -17,6 +19,7 @@ import java.util.Optional;
 public class DatabaseUserRepository implements UserRepository {
 
     private final JdbcTemplate jdbcTemplate;
+    private static final Logger logger = LoggerFactory.getLogger(DatabaseUserRepository.class);
 
     private final RowMapper<User> userRowMapper = (rs, rowNum) -> {
         User user = new User();
@@ -58,7 +61,7 @@ public class DatabaseUserRepository implements UserRepository {
 
     @Override
     public void deleteUser(Long id) {
-        //TODO: логировать
+        logger.info("Удаление пользователя с ID: {}", id);
         String sql = "DELETE FROM person WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
