@@ -4,6 +4,7 @@ import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,9 +46,9 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{id}")
-    public String deleteUser(@PathVariable Long id) {
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         log.debug("calling DELETE method with id={}", id);
         userService.delete(id);
-        return "redirect:/users";
+        return ResponseEntity.ok().build();
     }
 }
