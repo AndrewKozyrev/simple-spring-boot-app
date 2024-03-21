@@ -4,15 +4,14 @@ import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Service
 @Slf4j
@@ -71,5 +70,23 @@ public class UserServiceImpl implements UserService {
             logger.error("Ошибка при удалении пользователя с ID {}", id, e);
             return false;
         }
+    }
+
+    @EventListener(ApplicationStartedEvent.class)
+    public void fillDatabase() {
+        if (userRepository.findAll().size() >= 20) {
+            return;
+        }
+        for (int i = 1; i <= 10; i++) {
+            User user = new User();
+            user.setName("user_" + i);
+            user.setSurname("surname_" + i);
+            user.setAge(generateRandomAge());
+            userRepository.saveUser(user);
+        }
+    }
+
+    private int generateRandomAge() {
+        return (int) (Math.random() * 100) + 18;
     }
 }
