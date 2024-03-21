@@ -42,7 +42,7 @@ public class UserController {
     public String saveUser(@Valid @RequestBody User user) {
         userService.save(user);
 
-        return "redirect:/users";
+        return "redirect:/";
     }
 
     @DeleteMapping("/users/{id}")
@@ -52,11 +52,11 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    //TODO: написать метод для обновления пользователя "editUser"
-    @PutMapping("/users/{id}")
-    public String editUser(@PathVariable Long id, @Valid @RequestBody User updatedUser) {
+    @PutMapping("/users")
+    public String editUser(@Valid @RequestBody User updatedUser) {
         userService.update(updatedUser);
-        return "redirect:/users";
+
+        return "redirect:/";
     }
 
 
