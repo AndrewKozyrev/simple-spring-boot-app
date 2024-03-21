@@ -53,4 +53,11 @@ public class UserController {
     }
 
     //TODO: написать метод для обновления пользователя "editUser"
+    @PutMapping("/users/{id}")
+    public String editUser(@PathVariable Long id, @Valid @RequestBody User updatedUser) {
+        userService.update(updatedUser);
+        return "redirect:/users";
+    }
+
+
 }
