@@ -51,4 +51,6 @@ public class UserController {
         userService.delete(id);
         return ResponseEntity.ok().build();
     }
+
+    //TODO: написать метод для обновления пользователя "editUser"
 }
