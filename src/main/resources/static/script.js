@@ -30,3 +30,11 @@ function handleDeleteClick(event) {
       }
    }).catch(error => console.error(error));
 }
+
+// Function to handle "Create User" button click
+const createButton = document.getElementById("create-button");
+
+createButton.addEventListener("click", () => {
+   // Redirect to user-form endpoint using window.location.href
+   window.location.href = "/user-form";
+});
