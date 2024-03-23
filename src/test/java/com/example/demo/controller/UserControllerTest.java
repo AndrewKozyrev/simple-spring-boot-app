@@ -1,10 +1,12 @@
 package com.example.demo.controller;
 
+import com.example.demo.TestConfig;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -12,13 +14,13 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasItems;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(UserController.class)
+@SpringBootTest(classes = TestConfig.class)
+@AutoConfigureMockMvc
 class UserControllerTest {
 
     @Autowired
@@ -28,15 +30,14 @@ class UserControllerTest {
     private UserService userService;
 
     @Test
-    void usersEndpoint() throws Exception {
-        //TODO: продолжить этот тест
+    void users_success() throws Exception {
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
-                .andDo(print());
+                .andExpect(view().name("users.html"));
     }
 
     @Test
-    void getUsersEndpoint() throws Exception {
+    void getUsers_success() throws Exception {
         var list = List.of(new User(11L, "user1", "surname1", 21), new User(12L, "user2", "surname2", 22));
         doReturn(list).when(userService).findAll();
         mockMvc.perform(get("/users"))
@@ -48,8 +49,7 @@ class UserControllerTest {
 
     @Test
     void getUsers_exception() throws Exception {
-        // TODO: посмотреть этот тест
-        doThrow(RuntimeException.class).when(userService).findAll();
+        when(userService.findAll()).thenThrow(new RuntimeException("error"));
         mockMvc.perform(get("/users"))
                 .andDo(print())
                 .andExpect(status().isInternalServerError());
